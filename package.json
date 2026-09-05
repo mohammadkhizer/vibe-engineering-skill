@@ -1,0 +1,27 @@
+{
+  "name": "create-vibe-engineering-skill",
+  "version": "1.0.1",
+  "description": "CLI tool to scaffold the vibe-engineering Claude Skill and starter AGENTS.md into any project.",
+  "main": "bin/index.js",
+  "bin": {
+    "create-vibe-engineering-skill": "bin/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates"
+  ],
+  "scripts": {
+    "test": "node bin/index.js"
+  },
+  "keywords": [
+    "claude",
+    "ai-skills",
+    "agents",
+    "vibe-engineering",
+    "developer-tools",
+    "cli",
+    "scaffolding"
+  ],
+  "license": "MIT"
+}
