@@ -1,9 +1,10 @@
 {
-  "name": "create-vibe-engineering-skill",
-  "version": "1.0.1",
-  "description": "CLI tool to scaffold the vibe-engineering Claude Skill and starter AGENTS.md into any project.",
+  "name": "create-stack-guard-skill",
+  "version": "2.0.0",
+  "description": "CLI tool to scaffold MERN & Django architectural enforcement, sub-skills, and AGENTS.md rules into any project.",
   "main": "bin/index.js",
   "bin": {
+    "create-stack-guard-skill": "bin/index.js",
     "create-vibe-engineering-skill": "bin/index.js"
   },
   "files": [
@@ -12,13 +13,15 @@
     "templates"
   ],
   "scripts": {
-    "test": "node bin/index.js"
+    "test": "node bin/index.js --help"
   },
   "keywords": [
-    "claude",
-    "ai-skills",
-    "agents",
+    "claude-skills",
+    "ai-agents",
+    "mern",
+    "django",
     "vibe-engineering",
+    "stack-guard",
     "developer-tools",
     "cli",
     "scaffolding"

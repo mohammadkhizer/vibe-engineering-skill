@@ -1,77 +1,121 @@
 const fs = require('fs');
 const path = require('path');
-const readline = require('readline');
-
-function askQuestion(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans.trim());
-    })
-  );
-}
+const { askQuestion, promptInteractiveMode } = require('./prompts');
+const { computeDiff } = require('./diff');
 
 async function run() {
-  const cwd = process.cwd();
-  const skillDir = path.join(cwd, '.agents', 'skills', 'vibe-engineering');
-  const skillPath = path.join(skillDir, 'SKILL.md');
-  const agentsPath = path.join(cwd, 'AGENTS.md');
+  const args = process.argv.slice(2);
+  const isUpdate = args.includes('--update');
+  const isLite = args.includes('--lite');
+  const isMinimal = args.includes('--minimal');
+  const isHelp = args.includes('--help') || args.includes('-h');
 
-  const templateSkillPath = path.join(__dirname, '..', 'templates', 'SKILL.md');
+  if (isHelp) {
+    console.log('\x1b[36m🚀 create-stack-guard-skill CLI v2.0.0\x1b[0m\n');
+    console.log('Usage:');
+    console.log('  npx create-stack-guard-skill [options]\n');
+    console.log('Options:');
+    console.log('  --update      Safely update installed skills with diff verification');
+    console.log('  --lite        Install skills only into .agents/skills without modifying AGENTS.md');
+    console.log('  --minimal     Scaffold master skill + AGENTS.md');
+    console.log('  --help, -h    Show help menu\n');
+    return;
+  }
+
+  console.log('\x1b[36m🚀 Initializing Stack Guard Skill Scaffolding (v2.0.0)...\x1b[0m\n');
+
+  const cwd = process.cwd();
+  const templateSkillsDir = path.join(__dirname, '..', 'templates', 'skills');
   const templateAgentsPath = path.join(__dirname, '..', 'templates', 'AGENTS.md');
 
-  console.log('\x1b[36m🚀 Initializing vibe-engineering skill scaffolding...\x1b[0m\n');
+  // Discover template skills
+  const availableSkills = fs.existsSync(templateSkillsDir)
+    ? fs.readdirSync(templateSkillsDir).filter((f) => fs.statSync(path.join(templateSkillsDir, f)).isDirectory())
+    : ['vibe-engineering'];
 
-  // Check if SKILL.md already exists
-  if (fs.existsSync(skillPath)) {
-    const answer = await askQuestion(
-      `\x1b[33mWarning:\x1b[0m File .agents/skills/vibe-engineering/SKILL.md already exists. Overwrite? (y/N): `
-    );
-    if (answer.toLowerCase() !== 'y' && answer.toLowerCase() !== 'yes') {
-      console.log('\x1b[31mOperation cancelled. SKILL.md was not overwritten.\x1b[0m');
-      return;
+  let targetFormat = '1'; // 1: Claude (.agents/skills), 2: Cursor (.cursor/rules), 3: Codex (.codex/skills)
+  let shouldCreateAgents = !isLite;
+
+  if (!isUpdate && !isLite && !isMinimal) {
+    const choices = await promptInteractiveMode();
+    if (choices.mode === '3') {
+      shouldCreateAgents = false;
+    }
+    targetFormat = choices.format;
+  }
+
+  // Determine destination paths based on format
+  let destSkillBase = path.join(cwd, '.agents', 'skills');
+  if (targetFormat === '2') {
+    destSkillBase = path.join(cwd, '.cursor', 'rules');
+  } else if (targetFormat === '3') {
+    destSkillBase = path.join(cwd, '.codex', 'skills');
+  }
+
+  let installedCount = 0;
+  let updatedCount = 0;
+
+  for (const skillName of availableSkills) {
+    const srcSkillPath = path.join(templateSkillsDir, skillName, 'SKILL.md');
+    if (!fs.existsSync(srcSkillPath)) continue;
+
+    const templateContent = fs.readFileSync(srcSkillPath, 'utf8');
+
+    let targetSkillPath = path.join(destSkillBase, skillName, 'SKILL.md');
+    if (targetFormat === '2') {
+      // Cursor rule format
+      targetSkillPath = path.join(destSkillBase, `${skillName}.mdc`);
+    }
+
+    fs.mkdirSync(path.dirname(targetSkillPath), { recursive: true });
+
+    if (fs.existsSync(targetSkillPath)) {
+      const existingContent = fs.readFileSync(targetSkillPath, 'utf8');
+      const diff = computeDiff(existingContent, templateContent);
+
+      if (diff.isIdentical) {
+        console.log(`\x1b[36mℹ ${skillName}: Already up to date.\x1b[0m`);
+      } else {
+        console.log(`\n\x1b[33m⚠️ Diff detected for ${skillName}:\x1b[0m`);
+        console.log(`   Added lines: \x1b[32m+${diff.addedCount}\x1b[0m | Removed lines: \x1b[31m-${diff.removedCount}\x1b[0m\n`);
+        diff.diffLines.slice(0, 15).forEach((line) => console.log(`   ${line}`));
+        if (diff.diffLines.length > 15) {
+          console.log(`   \x1b[90m... (${diff.diffLines.length - 15} more lines)\x1b[0m`);
+        }
+
+        const overwrite = await askQuestion(
+          `\n\x1b[33mOverwrite ${skillName} with v2 template? (y/N): \x1b[0m`
+        );
+        if (overwrite.toLowerCase() === 'y' || overwrite.toLowerCase() === 'yes') {
+          fs.writeFileSync(targetSkillPath, templateContent, 'utf8');
+          console.log(`\x1b[32m✔ Updated ${skillName}\x1b[0m`);
+          updatedCount++;
+        } else {
+          console.log(`\x1b[31m✖ Skipped ${skillName}\x1b[0m`);
+        }
+      }
+    } else {
+      fs.writeFileSync(targetSkillPath, templateContent, 'utf8');
+      console.log(`\x1b[32m✔ Installed ${skillName} (${path.relative(cwd, targetSkillPath)})\x1b[0m`);
+      installedCount++;
     }
   }
 
-  // Create directory
-  fs.mkdirSync(skillDir, { recursive: true });
-
-  // Copy SKILL.md template
-  const skillContent = fs.readFileSync(templateSkillPath, 'utf8');
-  fs.writeFileSync(skillPath, skillContent, 'utf8');
-  console.log('\x1b[32m✔ Created .agents/skills/vibe-engineering/SKILL.md\x1b[0m');
-
   // Handle AGENTS.md
-  if (!fs.existsSync(agentsPath)) {
-    const createAgents = await askQuestion(
-      `No AGENTS.md found in project root. Create starter AGENTS.md? (Y/n): `
-    );
-    if (createAgents.toLowerCase() !== 'n') {
+  const agentsPath = path.join(cwd, 'AGENTS.md');
+  if (shouldCreateAgents) {
+    if (!fs.existsSync(agentsPath)) {
       const agentsContent = fs.readFileSync(templateAgentsPath, 'utf8');
       fs.writeFileSync(agentsPath, agentsContent, 'utf8');
       console.log('\x1b[32m✔ Created starter AGENTS.md in project root\x1b[0m');
+    } else {
+      console.log('\x1b[36mℹ Existing AGENTS.md preserved in project root.\x1b[0m');
     }
-  } else {
-    console.log('\x1b[36mℹ Found existing AGENTS.md in project root.\x1b[0m');
   }
 
-  // Success summary
-  console.log('\n\x1b[32m🎉 Success! vibe-engineering skill installed successfully.\x1b[0m\n');
-  console.log('Project layout:');
-  console.log('  ├── .agents/');
-  console.log('  │   └── skills/');
-  console.log('  │       └── vibe-engineering/');
-  console.log('  │           └── SKILL.md');
-  if (fs.existsSync(agentsPath)) {
-    console.log('  └── AGENTS.md');
-  }
-  console.log('\n\x1b[36mHow to use:\x1b[0m');
-  console.log('Reference the skill in your prompts using:');
-  console.log('  \x1b[33m@.agents/skills/vibe-engineering\x1b[0m\n');
+  console.log('\n\x1b[32m🎉 Success! Stack Guard skill suite configured.\x1b[0m\n');
+  console.log(`Installed: ${installedCount} skills | Updated: ${updatedCount} skills`);
+  console.log('Project skills directory:', path.relative(cwd, destSkillBase));
 }
 
 module.exports = { run };

@@ -3,6 +3,6 @@
 const { run } = require('../src/cli');
 
 run().catch((err) => {
-  console.error('\x1b[31mError:\x1b[0m', err.message);
+  console.error('\x1b[31mFatal error during skill scaffolding:\x1b[0m', err);
   process.exit(1);
 });
