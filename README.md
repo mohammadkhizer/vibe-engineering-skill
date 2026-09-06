@@ -1,12 +1,14 @@
 # vibe-engineering-skill
 
-> **Scaffolds MERN & AI integration architectural enforcement, token efficiency rules, sub-skills, and AGENTS.md governance into any repository.**
+> **Scaffolds MERN & AI-integration architectural enforcement, token efficiency rules, version control hygiene, sub-skills, and AGENTS.md governance into any repository.**
 
 ---
 
 ## 1. What Problem This Solves
 
-AI coding agents frequently jump straight into writing code without inspecting existing architecture or schemas. In Node.js, MERN, and AI-integration codebases, this leads to missing database indexes, client-side API secret leaks, unhandled promise rejections, bloated context token usage, and unrequested scope creep. `vibe-engineering-skill` scaffolds lightweight governance rules (`AGENTS.md`) and 6 modular sub-skills that force coding agents to perform technical research, manage token budgets, draft implementation plans, seek explicit user approval, and pass automated quality gates before modifying codebase files.
+AI coding agents frequently jump straight into writing code without inspecting existing architecture or schemas. In Node.js, MERN, and AI-integration codebases, this leads to missing database indexes, client-side API secret leaks, unhandled promise rejections, bloated context token usage, and unrequested scope creep.
+
+`vibe-engineering-skill` scaffolds lightweight governance rules (`AGENTS.md`) and 6 modular sub-skills that force coding agents to perform technical research, manage token budgets, draft implementation plans, seek explicit user approval, and pass automated quality gates before modifying codebase files.
 
 ---
 
@@ -19,7 +21,21 @@ AI coding agents frequently jump straight into writing code without inspecting e
 
 ---
 
-## 3. Real Before / After Benchmark Example
+## 3. Core Operating Rules (`vibe-engineering-skill`)
+
+When installed, `vibe-engineering-skill` enforces 5 core discipline pillars across all AI agent interactions:
+
+| Pillar | Rules Enforced |
+|---|---|
+| **1. Core Workflow** | Plan → Approve → Execute → Verify loop. Inspect files before proposing edits. Require explicit approval on non-trivial diffs. |
+| **2. Token Management** | Check file summaries first; never re-fetch context in session; cap single-turn reads to 5 files; log LLM token budgets; set explicit `max_tokens`. |
+| **3. Version Control** | Branch per fix/feature (`feat/`, `fix/`); Conventional Commits (`feat:`, `fix:`); update `CHANGELOG.md` & semver release tags. |
+| **4. MERN Standards** | Mongoose schema validation & migration notes; thin Express controllers; colocate React components/styles/tests; strictly `.env` for secrets. |
+| **5. Do's & Don'ts** | Ask before large changes; keep diffs minimal; track token spend; never commit secrets, `node_modules`, or `.env` files. |
+
+---
+
+## 4. Real Before / After Benchmark Example
 
 | Feature Request | Output WITHOUT Skill (Plain Prompt) | Output WITH `vibe-engineering-skill` |
 |---|---|---|
@@ -27,7 +43,7 @@ AI coding agents frequently jump straight into writing code without inspecting e
 
 ---
 
-## 4. How to Use & Operating Guide
+## 4. Quick Start & Usage
 
 ### Step 1: Scaffolding into Your Repository
 
@@ -37,14 +53,15 @@ Run the CLI at your project root to initialize governance rules and modular sub-
 npx vibe-engineering-skill
 ```
 
-#### CLI Options & Flags
+### Command-Line Options
+
 | Command / Flag | Purpose |
 |---|---|
 | `npx vibe-engineering-skill` | Standard interactive wizard. Asks format preference (Claude, Cursor, Codex) and scaffolds skills + root `AGENTS.md`. |
 | `npx vibe-engineering-skill --update` | Runs the **Safe Update Engine**. Compares installed skills against latest template versions, shows line-by-line diffs, and prompts before overwriting. |
 | `npx vibe-engineering-skill --lite` | Installs skills into `.agents/skills` without creating or modifying root `AGENTS.md`. |
 | `npx vibe-engineering-skill --minimal` | Installs master `vibe-engineering-skill` and starter `AGENTS.md` only. |
-| `npx vibe-engineering-skill --help` | Displays CLI usage summary and available flags. |
+| `npx vibe-engineering-skill --help`, `-h` | Displays CLI usage summary and available flags. |
 
 ---
 
@@ -86,6 +103,20 @@ Once installed, your AI coding agent adheres to a strict 6-step lifecycle for al
 4. **`scope-guard`**: Out-of-scope protection and anti-creep enforcement.
 5. **`post-mortem`**: Post-build retrospectives and architectural decision records (ADRs).
 6. **`gap-analysis`**: Code audits for unhandled errors, missing indexes, and test gaps.
+
+---
+
+## 5. Development & Testing
+
+Run tests locally:
+```bash
+npm test
+```
+
+Execute local CLI in non-interactive lite mode:
+```bash
+node bin/index.js --lite
+```
 
 ---
 
