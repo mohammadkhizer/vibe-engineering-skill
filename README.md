@@ -1,6 +1,35 @@
+<!-- @agent-manifest
+{
+  "name": "vibe-engineering-skill",
+  "type": "ai-agent-governance-framework",
+  "targets": ["claude-code", "cursor-ide", "codex", "windsurf", "custom-agents"],
+  "capabilities": [
+    "token-efficiency",
+    "architecture-research",
+    "human-in-the-loop-approval",
+    "quality-gate-verification",
+    "scope-creep-prevention",
+    "post-mortem-adrs"
+  ],
+  "governance_file": "AGENTS.md",
+  "export_formats": {
+    "claude": ".agents/skills",
+    "cursor": ".cursor/rules",
+    "codex": ".codex/skills"
+  }
+}
+-->
+
 # vibe-engineering-skill
 
 > **Scaffolds MERN & AI-integration architectural enforcement, token efficiency rules, version control hygiene, sub-skills, and AGENTS.md governance into any repository.**
+
+> **What is `vibe-engineering-skill`?**
+> `vibe-engineering-skill` is an open-source CLI framework and governance spec (`AGENTS.md`) designed for **AI coding agents** (Claude Code, Cursor IDE, Codex, Windsurf). It enforces a strict **Plan → Approve → Execute → Verify** workflow, preventing code hallucinations, unrequested scope creep, context token bloat, and API key leaks in Node.js, MERN stack, and full-stack AI development.
+
+[![npm version](https://img.shields.io/npm/v/vibe-engineering-skill.svg?style=flat-square&color=cb0000)](https://www.npmjs.com/package/vibe-engineering-skill)
+[![npm downloads](https://img.shields.io/npm/dm/vibe-engineering-skill.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/vibe-engineering-skill)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
 ---
 
@@ -25,13 +54,13 @@ AI coding agents frequently jump straight into writing code without inspecting e
 
 When installed, `vibe-engineering-skill` enforces 5 core discipline pillars across all AI agent interactions:
 
-| Pillar | Rules Enforced |
-|---|---|
-| **1. Core Workflow** | Plan → Approve → Execute → Verify loop. Inspect files before proposing edits. Require explicit approval on non-trivial diffs. |
-| **2. Token Management** | Check file summaries first; never re-fetch context in session; cap single-turn reads to 5 files; log LLM token budgets; set explicit `max_tokens`. |
-| **3. Version Control** | Branch per fix/feature (`feat/`, `fix/`); Conventional Commits (`feat:`, `fix:`); update `CHANGELOG.md` & semver release tags. |
-| **4. MERN Standards** | Mongoose schema validation & migration notes; thin Express controllers; colocate React components/styles/tests; strictly `.env` for secrets. |
-| **5. Do's & Don'ts** | Ask before large changes; keep diffs minimal; track token spend; never commit secrets, `node_modules`, or `.env` files. |
+| Pillar | Rules Enforced | Keywords & Targets |
+|---|---|---|
+| **1. Core Workflow** | Plan → Approve → Execute → Verify loop. Inspect files before proposing edits. Require explicit approval on non-trivial diffs. | `AI Agent Governance`, `Human-in-the-Loop Approval` |
+| **2. Token Management** | Check file summaries first; never re-fetch context in session; cap single-turn reads to 5 files; log LLM token budgets; set explicit `max_tokens`. | `LLM Token Efficiency`, `Context Window Optimization` |
+| **3. Version Control** | Branch per fix/feature (`feat/`, `fix/`); Conventional Commits (`feat:`, `fix:`); update `CHANGELOG.md` & semver release tags. | `Git Hygiene`, `Conventional Commits` |
+| **4. MERN Standards** | Mongoose schema validation & migration notes; thin Express controllers; colocate React components/styles/tests; strictly `.env` for secrets. | `MERN Stack Governance`, `Node.js Security` |
+| **5. Do's & Don'ts** | Ask before large changes; keep diffs minimal; track token spend; never commit secrets, `node_modules`, or `.env` files. | `Anti-Scope Creep`, `Quality Gate Verification` |
 
 ---
 
@@ -40,6 +69,12 @@ When installed, `vibe-engineering-skill` enforces 5 core discipline pillars acro
 | Feature Request | Output WITHOUT Skill (Plain Prompt) | Output WITH `vibe-engineering-skill` |
 |---|---|---|
 | *"Add user bookmarking tab to MERN dashboard"* | • Writes 6 frontend components immediately.<br>• Installs an unneeded external NPM helper.<br>• Omits MongoDB index on `user_id` + `post_id`.<br>• Fails silently on duplicate bookmarks. | • Inspects Mongoose schema & existing controllers.<br>• Drafts plan at `prompts/bookmark-tab.md`.<br>• Requests user approval before code write.<br>• Implements atomic `$addToSet` with index.<br>• Executes `quality-gate` tests. |
+
+---
+
+### 🎥 20-Second Human-in-the-Loop Approval Gate Demo
+
+![Vibe Engineering Skill - Human-in-the-Loop Approval Gate Demo](docs/agent_approval_gate_demo.webp)
 
 ---
 
@@ -147,6 +182,22 @@ Tailor the root `AGENTS.md` to enforce project-specific boundaries:
 
 ---
 
+## 6. Frequently Asked Questions (FAQ)
+
+### Q: How does `vibe-engineering-skill` prevent AI coding agents from overengineering?
+**A:** By installing `scope-guard` and `AGENTS.md` rules into your repository, the agent is strictly prohibited from introducing unrequested NPM dependencies, refactoring untouched files, or adding out-of-scope features without prior human approval.
+
+### Q: How does this reduce LLM context token consumption?
+**A:** The `vibe-engineering-skill` master rule enforces token discipline: capping single-turn file reads, relying on workspace summaries, avoiding duplicate context fetching, and forcing agents to write concise implementation plans before spending tokens on large code outputs.
+
+### Q: Which AI tools and IDEs are supported?
+**A:** `vibe-engineering-skill` supports **Claude Code**, **Cursor IDE** (`.cursor/rules/*.mdc`), **Codex**, **Windsurf**, **Copilot Workspace**, and any LLM agent configured to read root `AGENTS.md` or system instructions.
+
+### Q: Does `npx vibe-engineering-skill` modify my runtime application dependencies?
+**A:** No. `vibe-engineering-skill` is a zero-runtime scaffolding tool. It only installs developer governance files and markdown skills into your project.
+
+---
+
 ## ⚠️ Repository Hygiene & GitHub Metadata Flag
 
 *Note: GitHub CLI/API cannot set repository topics and description automatically without administrative OAuth scopes. Please visit your GitHub repository settings on github.com and configure:*
@@ -154,3 +205,4 @@ Tailor the root `AGENTS.md` to enforce project-specific boundaries:
 - **Repository Name**: `vibe-engineering-skill`
 - **Repository Description**: `Operating rules & sub-skill CLI scaffolding for Node.js, MERN & AI integration codebases.`
 - **Topics**: `claude-skills`, `ai-agents`, `mern`, `vibe-engineering-skill`, `stack-guard`, `developer-tools`, `scaffolding`, `code-governance`
+
