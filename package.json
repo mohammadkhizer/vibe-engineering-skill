@@ -1,11 +1,12 @@
 {
-  "name": "create-stack-guard-skill",
+  "name": "vibe-engineering-skill",
   "version": "2.0.0",
-  "description": "CLI tool to scaffold MERN & Django architectural enforcement, sub-skills, and AGENTS.md rules into any project.",
+  "description": "CLI tool to scaffold MERN & AI integration architectural enforcement, token efficiency rules, sub-skills, and AGENTS.md governance into any project.",
   "main": "bin/index.js",
   "bin": {
-    "create-stack-guard-skill": "bin/index.js",
-    "create-vibe-engineering-skill": "bin/index.js"
+    "vibe-engineering-skill": "bin/index.js",
+    "create-vibe-engineering-skill": "bin/index.js",
+    "create-stack-guard-skill": "bin/index.js"
   },
   "files": [
     "bin",
@@ -19,8 +20,7 @@
     "claude-skills",
     "ai-agents",
     "mern",
-    "django",
-    "vibe-engineering",
+    "vibe-engineering-skill",
     "stack-guard",
     "developer-tools",
     "cli",

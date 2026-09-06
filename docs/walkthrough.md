@@ -1,14 +1,14 @@
-# Walkthrough - Stack Guard Skill Scaffolding (v2.0.0)
+# Walkthrough - Vibe Engineering Skill Scaffolding (v2.0.0)
 
-We have completed the full architectural overhaul and implementation of all 6 concrete improvements to the skill scaffolding CLI package (renamed to `create-stack-guard-skill` with backwards-compatible `create-vibe-engineering-skill` binary alias).
+We have completed the package rename and skill rule updates for `vibe-engineering-skill` (with backwards-compatible `create-vibe-engineering-skill` and `create-stack-guard-skill` binary aliases).
 
 ---
 
 ## Key Accomplishments
 
 ### 1. 6 Modular Standalone Sub-Skills (`templates/skills/`)
-Split the monolithic skill into 6 focused skills:
-- **`vibe-engineering`**: Master orchestrator for AGENTS.md workflow and plan approval gate.
+Split the skill suite into 6 focused skills:
+- **`vibe-engineering-skill`**: Master orchestrator for AI agent workflow discipline, token management budgets, version control hygiene, and MERN standards.
 - **`research-before-design`**: Pre-implementation architectural research and dependency evaluation.
 - **`quality-gate`**: Mandatory linting, type-checking, build validation, and testing enforcement.
 - **`scope-guard`**: Out-of-scope protection and anti-creep enforcement.
@@ -16,17 +16,14 @@ Split the monolithic skill into 6 focused skills:
 - **`gap-analysis`**: Code audits for unhandled promise rejections, missing DB indexes, and test gaps.
 
 ### 2. Tightened Trigger Conditions & Suppressions
-Rewrote YAML frontmatter and added explicit negative trigger suppression rules in `vibe-engineering`:
-- **Positive Triggers**: New MERN/Django feature requests, project initialization, multi-step application functionality.
-- **Suppression Rules**: Pure Q&A/concepts, trivial single-line edits, unrelated stacks (iOS/Swift, Rust, Flutter, Go), and standalone sub-tasks.
+Rewrote YAML frontmatter and added explicit trigger conditions in `vibe-engineering-skill`:
+- **When to Invoke**: Writing/editing code, making git commits, calling LLM APIs, multi-file/turn agent tasks.
 
-### 3. Real MERN & Django Scar-Tissue Do's & Don'ts
-Added concrete failure prevention rules to `templates/skills/vibe-engineering/SKILL.md`:
-- Index foreign key/ObjectId DB fields (`db_index=True`, Mongoose compound indexes).
-- Keep UI display components clean; isolate logic in controllers/services.
-- Enforce server-only `.env` keys (prevent Vite/React client bundle leaks).
-- Use atomic DB mutations (`$set`, `$inc`, Django `F()`).
-- Avoid unbatched DB queries inside loops.
+### 3. Real MERN & AI Integration Scar-Tissue Do's & Don'ts
+Added concrete failure prevention rules to `templates/skills/vibe-engineering-skill/SKILL.md`:
+- Token management caps, LLM API `max_tokens` limits, context caching.
+- Version control branch & Conventional Commit standards.
+- Thin Express controllers, Mongoose schema validation, React logic extraction.
 
 ### 4. Safe Update Engine (`--update` Flag)
 Created `src/diff.js` to compare installed files against template versions:
@@ -38,8 +35,8 @@ Created `src/diff.js` to compare installed files against template versions:
 - Supports **Claude/Universal** (`.agents/skills`), **Cursor** (`.cursor/rules/*.mdc`), and **Codex** (`.codex/skills`).
 
 ### 6. Package Renaming & Binary Aliases
-- Updated `package.json` to version `2.0.0` under **`create-stack-guard-skill`** (verified free on npm).
-- Configured binary aliases for both `create-stack-guard-skill` and `create-vibe-engineering-skill`.
+- Updated `package.json` to version `2.0.0` under **`vibe-engineering-skill`**.
+- Configured binary aliases for `vibe-engineering-skill`, `create-vibe-engineering-skill`, and `create-stack-guard-skill`.
 
 ### 7. Documentation & Repository Hygiene
 - Overhauled `README.md` with problem statement, non-goals, side-by-side benchmark comparison, and manual GitHub metadata instructions.

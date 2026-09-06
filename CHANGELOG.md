@@ -1,15 +1,16 @@
 # Changelog
 
-All notable changes to the `create-stack-guard-skill` (formerly `create-vibe-engineering-skill`) CLI package will be documented in this file.
+All notable changes to the `vibe-engineering-skill` (formerly `create-vibe-engineering-skill` / `create-stack-guard-skill`) CLI package will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-09-05
+## [2.0.0] - 2026-09-06
 
 ### Added
-- **Package Renaming**: Package renamed to `create-stack-guard-skill` with backwards-compatible `create-vibe-engineering-skill` binary alias.
+- **Package Renaming**: Renamed package to `vibe-engineering-skill` with backwards-compatible `create-vibe-engineering-skill` and `create-stack-guard-skill` binary aliases.
+- **Enhanced `vibe-engineering-skill` Rules**: Updated master skill with Operating Rules for AI coding agents (Node.js / MERN / AI integrations), Token Management budgets, and Version Control hygiene.
 - **Modular Sub-Skill Architecture**: Split monolithic skill into 6 focused skills:
-  - `vibe-engineering` (master orchestrator)
+  - `vibe-engineering-skill` (master orchestrator)
   - `research-before-design`
   - `quality-gate`
   - `scope-guard`

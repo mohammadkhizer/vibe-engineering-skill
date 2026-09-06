@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thank you for contributing to `create-stack-guard-skill`!
+Thank you for contributing to `vibe-engineering-skill`!
 
 ## Submitting New Skills or Templates
 

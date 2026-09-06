@@ -1,6 +1,6 @@
 # P3 Future Backlog
 
-This document tracks future planned features and architectural enhancements for `create-stack-guard-skill`.
+This document tracks future planned features and architectural enhancements for `vibe-engineering-skill`.
 
 ## Tracked Backlog Items
 
@@ -11,4 +11,4 @@ This document tracks future planned features and architectural enhancements for 
    - Provide an official `.github/workflows/verify-plan-gate.yml` action that verifies PR commits contain a corresponding approved `prompts/<name>.md` file prior to merging.
 
 3. **Community Skill Marketplace / Registry Index**:
-   - Allow fetching custom skill packs from community GitHub repositories or registry indexes via `npx create-stack-guard-skill --add <repo-url>`.
+   - Allow fetching custom skill packs from community GitHub repositories or registry indexes via `npx vibe-engineering-skill --add <repo-url>`.

@@ -11,9 +11,9 @@ async function run() {
   const isHelp = args.includes('--help') || args.includes('-h');
 
   if (isHelp) {
-    console.log('\x1b[36m🚀 create-stack-guard-skill CLI v2.0.0\x1b[0m\n');
+    console.log('\x1b[36m🚀 vibe-engineering-skill CLI v2.0.0\x1b[0m\n');
     console.log('Usage:');
-    console.log('  npx create-stack-guard-skill [options]\n');
+    console.log('  npx vibe-engineering-skill [options]\n');
     console.log('Options:');
     console.log('  --update      Safely update installed skills with diff verification');
     console.log('  --lite        Install skills only into .agents/skills without modifying AGENTS.md');
@@ -22,7 +22,7 @@ async function run() {
     return;
   }
 
-  console.log('\x1b[36m🚀 Initializing Stack Guard Skill Scaffolding (v2.0.0)...\x1b[0m\n');
+  console.log('\x1b[36m🚀 Initializing Vibe Engineering Skill Scaffolding (v2.0.0)...\x1b[0m\n');
 
   const cwd = process.cwd();
   const templateSkillsDir = path.join(__dirname, '..', 'templates', 'skills');
@@ -31,7 +31,7 @@ async function run() {
   // Discover template skills
   const availableSkills = fs.existsSync(templateSkillsDir)
     ? fs.readdirSync(templateSkillsDir).filter((f) => fs.statSync(path.join(templateSkillsDir, f)).isDirectory())
-    : ['vibe-engineering'];
+    : ['vibe-engineering-skill'];
 
   let targetFormat = '1'; // 1: Claude (.agents/skills), 2: Cursor (.cursor/rules), 3: Codex (.codex/skills)
   let shouldCreateAgents = !isLite;
@@ -113,7 +113,7 @@ async function run() {
     }
   }
 
-  console.log('\n\x1b[32m🎉 Success! Stack Guard skill suite configured.\x1b[0m\n');
+  console.log('\n\x1b[32m🎉 Success! Vibe Engineering skill suite configured.\x1b[0m\n');
   console.log(`Installed: ${installedCount} skills | Updated: ${updatedCount} skills`);
   console.log('Project skills directory:', path.relative(cwd, destSkillBase));
 }
