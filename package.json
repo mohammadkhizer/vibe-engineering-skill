@@ -1,6 +1,6 @@
 {
   "name": "vibe-engineering-skill",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool to scaffold MERN & AI integration architectural enforcement, token efficiency rules, sub-skills, and AGENTS.md governance into any project.",
   "main": "bin/index.js",
   "bin": {
